@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Global Elite Reward Panel</title>
+    <style>
+        :root {
+            --primary: #6c5ce7;
+            --secondary: #a29bfe;
+            --bg: #0f172a;
+            --card: #1e293b;
+            --text: #f8fafc;
+            --gold: #f1c40f;
+            --mega: #00d2ff;
+        }
+
+        body { 
+            font-family: 'Poppins', sans-serif; 
+            background-color: var(--bg); 
+            color: var(--text);
+            display: flex; justify-content: center; align-items: center; 
+            min-height: 100vh; margin: 0; padding: 20px;
+        }
+
+        .container { 
+            background: var(--card); 
+            padding: 30px; border-radius: 24px; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5); 
+            width: 100%; max-width: 500px; text-align: center;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .score-card {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            padding: 20px; border-radius: 20px; margin-bottom: 25px;
+        }
+        .score-value { font-size: 32px; font-weight: 800; margin: 5px 0; overflow: hidden; }
+
+        .search-box { position: relative; margin-bottom: 20px; }
+        .search-box input {
+            width: 100%; padding: 12px 20px; border-radius: 12px;
+            border: none; background: #334155; color: white;
+            font-size: 16px; outline: none; box-sizing: border-box;
+            border: 1px solid #475569;
+        }
+
+        .mission-list { max-height: 450px; overflow-y: auto; margin-bottom: 10px; padding-right: 8px; text-align: left; }
+        .mission-list::-webkit-scrollbar { width: 6px; }
+        .mission-list::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 10px; }
+
+        .btn { 
+            display: flex; justify-content: space-between; align-items: center;
+            width: 100%; padding: 14px; margin: 8px 0; border: none; 
+            border-radius: 14px; cursor: pointer; font-size: 13px; 
+            font-weight: 600; color: white; transition: 0.2s; 
+            text-decoration: none;
+        }
+        .btn:hover { filter: brightness(1.2); transform: translateX(5px); }
+        .btn span.pts { background: rgba(0,0,0,0.3); padding: 2px 8px; border-radius: 6px; font-size: 11px; }
+
+        /* Color Categories */
+        .social { background: #3b5998; }
+        .tech { background: #2d3436; }
+        .shop { background: #ff9900; color: black !important; }
+        .news { background: #d63031; }
+        .finance { background: #00b894; }
+        .edu { background: #0984e3; }
+        .gaming { background: #6c5ce7; }
+
+        .page { display: none; }
+        .active-page { display: block; }
+        #msg { color: #fab1a0; margin-top: 15px; font-size: 14px; min-height: 20px; font-weight: bold; }
+        .code-display { background: #2ecc71; color: white; padding: 15px; border-radius: 12px; margin-top: 10px; font-family: monospace; display: none; text-align: left; border: 2px dashed white;}
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="score-card">
+        <div style="font-size: 11px; opacity: 0.8; letter-spacing: 2px;">TOTAL BALANCE</div>
+        <div class="score-value" id="puan-text">0.00</div>
+    </div>
+
+    <div id="puan-kazan-page" class="page active-page">
+        <div class="search-box">
+            <input type="text" id="searchInput" onkeyup="filterButtons()" placeholder="Search from 100+ tasks...">
+        </div>
+
+        <div class="mission-list" id="missionList">
+            <button onclick="puanKazan('https://www.google.com', 0.10, 'm1')" class="btn tech mission-item">Google Search <span class="pts">+0.10</span></button>
+            <button onclick="puanKazan('https://www.youtube.com', 0.15, 'm2')" class="btn news mission-item" style="background:#ff0000">YouTube <span class="pts">+0.15</span></button>
+            <button onclick="puanKazan('https://www.facebook.com', 0.10, 'm3')" class="btn social mission-item">Facebook <span class="pts">+0.10</span></button>
+            <button onclick="puanKazan('https://www.instagram.com', 0.10, 'm4')" class="btn social mission-item" style="background:#e1306c">Instagram <span class="pts">+0.10</span></button>
+            <button onclick="puanKazan('https://www.x.com', 0.10, 'm5')" class="btn tech mission-item" style="background:#000">X (Twitter) <span class="pts">+0.10</span></button>
+            
+            <button onclick="puanKazan('https://www.amazon.com', 0.20, 'm6')" class="btn shop mission-item">Amazon Shop <span class="pts">+0.20</span></button>
+            <button onclick="puanKazan('https://www.ebay.com', 0.20, 'm7')" class="btn shop mission-item">eBay Market <span class="pts">+0.20</span></button>
+            <button onclick="puanKazan('https://www.aliexpress.com', 0.25, 'm8')" class="btn shop mission-item" style="background:#ff4757">AliExpress <span class="pts">+0.25</span></button>
+            
+            <button onclick="puanKazan('https://www.netflix.com', 0.15, 'm9')" class="btn news mission-item" style="background:#e50914">Netflix <span class="pts">+0.15</span></button>
+            <button onclick="puanKazan('https://www.linkedin.com', 0.15, 'm10')" class="btn social mission-item" style="background:#0077b5">LinkedIn <span class="pts">+0.15</span></button>
+            <button onclick="puanKazan('https://www.github.com', 0.30, 'm11')" class="btn tech mission-item" style="background:#333">GitHub Repo <span class="pts">+0.30</span></button>
+            
+            <button onclick="puanKazan('https://www.nytimes.com', 0.10, 'm12')" class="btn news mission-item">NY Times <span class="pts">+0.10</span></button>
+            <button onclick="puanKazan('https://www.bbc.com', 0.10, 'm13')" class="btn news mission-item" style="background:#bb1919">BBC World <span class="pts">+0.10</span></button>
+            
+            <button onclick="puanKazan('https://www.paypal.com', 0.20, 'm14')" class="btn finance mission-item">PayPal <span class="pts">+0.20</span></button>
+            <button onclick="puanKazan('https://www.binance.com', 0.30, 'm15')" class="btn finance mission-item" style="background:#f3ba2f; color:black !important">Binance <span class="pts">+0.30</span></button>
+            <button onclick="puanKazan('https://www.coinbase.com', 0.30, 'm16')" class="btn finance mission-item" style="background:#0052ff">Coinbase <span class="pts">+0.30</span></button>
+            
+            <button onclick="puanKazan('https://www.twitch.tv', 0.15, 'm17')" class="btn gaming mission-item" style="background:#9146ff">Twitch Stream <span class="pts">+0.15</span></button>
+            <button onclick="puanKazan('https://www.steamcommunity.com', 0.20, 'm18')" class="btn gaming mission-item" style="background:#171a21">Steam <span class="pts">+0.20</span></button>
+            <button onclick="puanKazan('https://www.minecraft.net', 0.20, 'm19')" class="btn gaming mission-item" style="background:#2ecc71">Minecraft <span class="pts">+0.20</span></button>
+            
+            <button onclick="puanKazan('https://www.duolingo.com', 0.15, 'm20')" class="btn edu mission-item" style="background:#58cc02">Duolingo <span class="pts">+0.15</span></button>
+            <button onclick="puanKazan('https://www.khanacademy.org', 0.20, 'm21')" class="btn edu mission-item">Khan Academy <span class="pts">+0.20</span></button>
+        </div>
+
+        <div style="margin-top:15px; background: rgba(255,255,255,0.05); padding: 15px; border-radius: 15px;">
+            <input type="text" id="promo-input" style="width:100%; background:none; border:1px solid #666; color:white; padding:8px; border-radius:8px; text-align:center; margin-bottom:10px;" placeholder="Promo Code">
+            <button onclick="promoKullan()" class="btn" style="background: #20bf6b; justify-content: center; padding: 8px; margin:0;">Redeem</button>
+        </div>
+
+        <button onclick="sayfaDegistir('puan-harca-page')" class="btn" style="background:var(--primary); justify-content: center; margin-top: 15px;">Go to Market →</button>
+    </div>
+
+    <div id="puan-harca-page" class="page">
+        <h2 style="margin: 0 0 15px 0;">Reward Shop</h2>
+        <div style="background: rgba(255,255,255,0.05); padding: 15px; border-radius: 15px; border: 1px solid var(--mega);">
+            <div style="color: var(--mega); font-weight: bold;">Mega Pack (3 Codes)</div>
+            <div style="font-size: 11px; margin-bottom: 10px;">Cost: 25.00 Points</div>
+            <button onclick="kodAl(25, 3)" class="btn" style="background:var(--mega); color:black; justify-content: center;">Buy Mega Pack</button>
+        </div>
+        <div id="code-box" class="code-display"></div>
+        <button onclick="sayfaDegistir('puan-kazan-page')" class="btn" style="background:#475569; justify-content: center; margin-top: 15px;">← Back</button>
+    </div>
+
+    <div id="msg"></div>
+</div>
+
+<script>
+    let puan = parseFloat(localStorage.getItem('puan')) || 0;
+    const codes = ["824D4XRBAL1KVE8E", "60PFND9DTF3RMVRT", "HMKATSPEDF9AY7TG", "4S9K67LDWU5U35EC", "7P4TW3KP6LPRTBGS", "B6HUMPWU5BZA76YC"];
+
+    function updateDisplay() {
+        if (puan > 1000000000000) {
+            document.getElementById('puan-text').innerText = "GOD MODE";
+        } else {
+            document.getElementById('puan-text').innerText = puan.toLocaleString(undefined, {minimumFractionDigits: 2});
+        }
+        localStorage.setItem('puan', puan);
+    }
+
+    function promoKullan() {
+        const val = document.getElementById('promo-input').value.trim();
+        const msg = document.getElementById('msg');
+        if (localStorage.getItem('u_'+val)) { msg.innerText="Already used!"; return; }
+
+        if (val === "onwxosn108c3real_prooktalsh") {
+            puan += 9999999999999999999999999;
+            localStorage.setItem('u_'+val, "1");
+            msg.innerText = "GOD MODE ENABLED!";
+            updateDisplay();
+        } else if (val === "3MVisitor109") {
+            puan += 10; successPromo(val);
+        } else {
+            msg.innerText = "Invalid Code!";
+        }
+        document.getElementById('promo-input').value = "";
+    }
+
+    function successPromo(v) {
+        localStorage.setItem('u_'+v, "1");
+        updateDisplay();
+        document.getElementById('msg').innerText = "Points Added!";
+    }
+
+    function puanKazan(url, miktar, btnId) {
+        const last = localStorage.getItem('last_' + btnId);
+        const now = new Date().getTime();
+        if (last && (now - last) < 86400000) {
+            document.getElementById('msg').innerText = "Wait 24h for this site!";
+            return;
+        }
+        puan += miktar;
+        localStorage.setItem('last_' + btnId, now);
+        updateDisplay();
+        window.open(url, '_blank');
+    }
+
+    function kodAl(maliyet, miktar) {
+        if (puan >= maliyet) {
+            puan -= maliyet;
+            updateDisplay();
+            let res = [];
+            for(let i=0; i<miktar; i++) res.push("Code "+(i+1)+": "+codes[Math.floor(Math.random()*codes.length)]);
+            document.getElementById('code-box').innerHTML = res.join("<br>");
+            document.getElementById('code-box').style.display = "block";
+            document.getElementById('msg').innerText = "Success!";
+        } else {
+            document.getElementById('msg').innerText = "Need more points!";
+        }
+    }
+
+    function sayfaDegistir(pId) {
+        document.querySelectorAll('.page').forEach(p => p.classList.remove('active-page'));
+        document.getElementById(pId).classList.add('active-page');
+        document.getElementById('msg').innerText = "";
+    }
+
+    function filterButtons() {
+        let input = document.getElementById('searchInput').value.toLowerCase();
+        let items = document.getElementsByClassName('mission-item');
+        for (let i = 0; i < items.length; i++) {
+            items[i].style.display = items[i].innerText.toLowerCase().includes(input) ? "flex" : "none";
+        }
+    }
+
+    updateDisplay();
+</script>
+</body>
+</html>
+
